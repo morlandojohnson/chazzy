@@ -1,30 +1,22 @@
-const { Client, IntentsBitField } = require("discord.js");
 require("dotenv").config();
 
-const client = new Client({
-  intents: [
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.MessageContent,
-  ],
-});
+import Groq from "groq-sdk";
 
-client.once("ready", () => {
-  console.log("Rise and grind babes");
-});
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-client.on("ready", (c) => {
-  console.log(`${c.user.username} is alive`);
-});
+export async function main() {
+  const chatCompletion = await getGroqChatCompletion();
+  console.log(chatCompletion.choices[0]?.message?.content || "");
+}
 
-client.on("messageCreate", (message) => {
-  if (message.author.bot) {
-    return;
-  }
-  if (message.content === "hello") {
-    message.reply("hello");
-  }
-});
-
-client.login(process.env.TOKEN);
+export async function getGroqChatCompletion() {
+  return groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: "Explain the importance of fast language models",
+      },
+    ],
+    model: "llama-3.3-70b-versatile",
+  });
+}
