@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { Client, Events, GatewayIntentBits, IntentsBitField } from "discord.js";
 import chazzyNames from "./replies.js";
+import greetings from "./greetings.js";
 import Groq from "groq-sdk";
 
 // New Client instance
@@ -28,8 +29,10 @@ client.on("messageCreate", (message) => {
     return;
   }
   if (message.mentions.has(client.user)) {
-    if (message.content.includes("hello")) {
-      message.reply("Hey babes!");
+    if (message.content.includes("hello") || message.content.includes("hi")) {
+      const randomGreeting =
+        greetings[Math.floor(Math.random() * greetings.length)];
+      message.reply(randomGreeting);
     }
   }
 });
