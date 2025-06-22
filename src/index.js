@@ -3,6 +3,8 @@ dotenv.config();
 import { Client, Events, GatewayIntentBits, IntentsBitField } from "discord.js";
 import chazzyNames from "./replies.js";
 import greetings from "./greetings.js";
+import graded from "./graded.js";
+import michelle from "./michelle.js";
 import Groq from "groq-sdk";
 
 // New Client instance
@@ -24,6 +26,7 @@ client.on("ready", (c) => {
   console.log(`${c.user.username} is alive`);
 });
 
+// Chazzy greetings
 client.on("messageCreate", (message) => {
   if (message.author.bot) {
     return;
@@ -37,14 +40,27 @@ client.on("messageCreate", (message) => {
   }
 });
 
+// Helper function for random replies
+function getRandomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+// Chazzy mentions
 client.on("messageCreate", (message) => {
   if (message.author.bot) {
     return;
   }
   if (message.content.toLowerCase().includes("chazzy")) {
-    const randomReply =
-      chazzyNames[Math.floor(Math.random() * chazzyNames.length)];
+    const randomReply = getRandomItem(chazzyNames);
     message.reply(randomReply);
+  }
+  if (message.content.toLowerCase().includes("graded")) {
+    const gradedReply = getRandomItem(graded);
+    message.reply(gradedReply);
+  }
+  if (message.content.toLowerCase().includes("michelle")) {
+    const michelleReply = getRandomItem(michelle);
+    message.reply(michelleReply);
   }
 });
 

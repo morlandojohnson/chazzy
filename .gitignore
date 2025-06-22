@@ -1,3 +1,6 @@
 .env
 node_modules
 src/replies.js
+src/graded.js
+src/greetings.js
+src/michelle.js
