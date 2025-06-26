@@ -183,30 +183,3 @@ client.on("messageCreate", (message) => {
 });
 
 client.login(process.env.TOKEN);
-
-// Groq instance
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
-export async function main() {
-  const chatCompletion = await getGroqChatCompletion();
-  console.log(chatCompletion.choices[0]?.message?.content || "");
-}
-
-export async function summarizeMessages(messages) {
-  return groq.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content: persona,
-      },
-      {
-        role: "user",
-        content:
-          "Please privde a detailed summary of this Discord conversation",
-      },
-    ],
-    model: "llama-3.3-70b-versatile",
-    temperature: 0.7,
-    max_tokens: 1024,
-  });
-}
